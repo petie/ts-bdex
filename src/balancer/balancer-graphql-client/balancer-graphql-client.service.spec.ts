@@ -1,7 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { BalancerGraphqlClientService } from './balancer-graphql-client.service';
+import { Test, TestingModule } from "@nestjs/testing";
+import { BalancerGraphqlClientService } from "./balancer-graphql-client.service";
 
-describe('BalancerGraphqlClientService', () => {
+describe("BalancerGraphqlClientService", () => {
   let service: BalancerGraphqlClientService;
 
   beforeEach(async () => {
@@ -14,7 +14,7 @@ describe('BalancerGraphqlClientService', () => {
     );
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(service).toBeDefined();
   });
 });

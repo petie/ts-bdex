@@ -1,5 +1,5 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
-import { Injectable } from '@nestjs/common';
+import { ApolloClient, InMemoryCache } from "@apollo/client/core";
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class BalancerGraphqlClientService {
