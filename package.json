@@ -18,7 +18,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "typeorm": "typeorm-ts-node-esm -d src/config/db.ts"
+    "typeorm": "typeorm-ts-node-esm -d src/config/db.ts",
+    "typeorm:migrate": "typeorm-ts-node-esm -d src/config/db.ts migration:run",
+    "typeorm:generate": "typeorm-ts-node-esm -d src/config/db.ts migration:generate"
   },
   "dependencies": {
     "@apollo/client": "^3.7.16",
