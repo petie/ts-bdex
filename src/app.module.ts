@@ -3,7 +3,8 @@ import { AppService } from "./app.service";
 import { BalancerModule } from "./balancer/balancer.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
-console.log(process.env.POSTGRES_PASSWORD);
+import { join } from "path";
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -15,7 +16,7 @@ console.log(process.env.POSTGRES_PASSWORD);
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
-      entities: ["**/*.entity{.ts,.js}"],
+      entities: [join(__dirname, "**", "*.entity.{ts,js}")],
       migrationsTableName: "migration",
       migrations: ["src/migration/*.ts"],
       ssl: false,

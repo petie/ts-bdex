@@ -7,6 +7,4 @@ export class BalancerGraphqlClientService {
     uri: process.env.BALANCER_SUBGRAPH_URL,
     cache: new InMemoryCache(),
   });
-
-  constructor() {}
 }

@@ -1,7 +1,7 @@
-import { GetPoolsCommand } from './get-pools-command';
+import { GetPoolsCommand } from "./get-pools-command";
 
-describe('GetPoolsCommand', () => {
-  it('should be defined', () => {
+describe("GetPoolsCommand", () => {
+  it("should be defined", () => {
     expect(new GetPoolsCommand()).toBeDefined();
   });
 });
