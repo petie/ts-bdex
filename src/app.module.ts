@@ -1,5 +1,4 @@
 import { Module } from "@nestjs/common";
-import { AppService } from "./app.service";
 import { BalancerModule } from "./balancer/balancer.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
@@ -20,8 +19,8 @@ import { join } from "path";
       migrationsTableName: "migration",
       migrations: ["src/migration/*.ts"],
       ssl: false,
+      poolSize: 10,
     }),
   ],
-  providers: [AppService],
 })
 export class AppModule {}

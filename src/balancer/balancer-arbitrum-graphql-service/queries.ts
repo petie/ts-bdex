@@ -45,15 +45,10 @@ export const poolsQuery = gql`
     address
     poolType
     poolTypeVersion
-    factory
-    strategyType
     symbol
     name
     swapEnabled
     swapFee
-    protocolYieldFeeCache
-    protocolSwapFeeCache
-    owner
     totalWeight
     totalSwapVolume
     totalSwapFee
@@ -64,41 +59,12 @@ export const poolsQuery = gql`
     }
     swapsCount
     holdersCount
-    tokensList
-    amp
     priceRateProviders(first: 100) {
       ...SubgraphPriceRateProvider
     }
-    expiryTime
-    unitSeconds
     createTime
-    principalToken
-    baseToken
-    wrappedIndex
-    mainIndex
-    lowerTarget
-    upperTarget
-    sqrtAlpha
-    sqrtBeta
-    root3Alpha
     isInRecoveryMode
     isPaused
-    alpha
-    beta
-    c
-    s
-    lambda
-    tauAlphaX
-    tauAlphaY
-    tauBetaX
-    tauBetaY
-    u
-    v
-    w
-    z
-    dSq
-    delta
-    epsilon
   }
 
   fragment SubgraphPoolToken on PoolToken {
@@ -108,9 +74,7 @@ export const poolsQuery = gql`
     decimals
     address
     balance
-    managedBalance
     weight
-    priceRate
     isExemptFromYieldProtocolFee
     token {
       ...TokenTree
@@ -119,7 +83,6 @@ export const poolsQuery = gql`
 
   fragment TokenTree on Token {
     latestUSDPrice
-    latestFXPrice
     pool {
       ...SubgraphSubPool
       tokens(first: 100, orderBy: index) {

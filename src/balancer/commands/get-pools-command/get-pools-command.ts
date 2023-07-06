@@ -18,6 +18,6 @@ export class GetPoolsCommand extends CommandRunner {
     passedParams: string[],
     options?: Record<string, any>,
   ): Promise<void> {
-    await this.balancerGraphqlClientService.getPools();
+    this.balancerGraphqlClientService.getPools();
   }
 }

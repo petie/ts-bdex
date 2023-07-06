@@ -1,13 +1,11 @@
 import { AppModule } from "./app.module";
-import { CommandFactory } from "nest-commander";
-import { Logger } from "@nestjs/common";
+import { NestFactory } from "@nestjs/core";
+import { BalancerArbitrumGraphqlServiceService } from "./balancer/balancer-arbitrum-graphql-service/balancer-arbitrum-graphql-service.service";
 
 async function bootstrap() {
-  const logger = new Logger("bootstrap");
-  // const app = await NestFactory.createApplicationContext(AppModule);
-  await CommandFactory.run(AppModule, logger);
-  // const appService = app.select(AppModule).get(AppService);
-  // await appService.start();
-  // await app.close();
+  const app = await NestFactory.createApplicationContext(AppModule);
+  const tasksService = app.get(BalancerArbitrumGraphqlServiceService);
+  await tasksService.getPools();
+  // application logic...
 }
 bootstrap();
