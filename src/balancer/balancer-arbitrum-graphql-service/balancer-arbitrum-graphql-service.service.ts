@@ -51,77 +51,78 @@ export class BalancerArbitrumGraphqlServiceService {
   }
   async processTokens(tokens: any[]) {
     const uniques = uniqBy<any>(flatten(tokens), "address");
-
-    uniques.reduce(async (memo, token) => {
-      await memo;
-      this.logger.log(`Processing token ${token.address} ${token.symbol}`);
-      await this.tokenRepo.upsert(
-        {
-          address: token.address,
-          symbol: token.symbol,
-          chain: this.chain,
-          decimals: token.decimals,
-          name: token.name,
-        },
-        ["address"],
-      );
-    }, undefined);
-
+    await Promise.all(
+      await uniques.map(async (token) => {
+        this.logger.log(`Processing token ${token.address} ${token.symbol}`);
+        await this.tokenRepo.upsert(
+          {
+            address: token.address,
+            symbol: token.symbol,
+            chain: this.chain,
+            decimals: token.decimals,
+            name: token.name,
+          },
+          ["address"],
+        );
+      }),
+    );
     await this.processTokenPrices(uniques);
   }
   async processTokenPrices(uniques: any[]) {
     this.logger.log(`Processing token prices`);
-
-    uniques.reduce(async (memo, token) => {
-      await memo;
-      if (token.latestUSDPrice && token.latestUSDPrice !== null) {
-        const t = await this.tokenRepo.findOne({
-          where: { address: token.address },
-        });
-        if (t != null) {
-          this.logger.log(`Processing token price ${t.symbol}`);
-          await this.tokenPriceRepo.upsert(
-            {
-              token: t,
-              timestamp: new Date(),
-              usdPrice: token.latestUSDPrice,
-            },
-            ["tokenId"],
-          );
+    await Promise.all(
+      await uniques.map(async (token) => {
+        if (token.token.latestUSDPrice && token.token.latestUSDPrice !== null) {
+          const t = await this.tokenRepo.findOne({
+            where: { address: token.address },
+          });
+          if (t != null) {
+            this.logger.log(`Processing token price ${t.symbol}`);
+            await this.tokenPriceRepo.upsert(
+              {
+                token: t,
+                timestamp: new Date(),
+                usdPrice: token.token.latestUSDPrice,
+                tokenId: t.address,
+              },
+              ["tokenId"],
+            );
+          }
         }
-      }
-    }, undefined);
+      }),
+    );
   }
 
   async processPools(poolCollection: any) {
-    poolCollection.reduce(async (memo, pool) => {
-      await memo;
-      this.logger.log(`Processing pool ${pool.address} ${pool.name}`);
-      let recoveryMode = pool.isInRecoveryMode ?? false;
-      if (recoveryMode === null) recoveryMode = false;
-      if (!recoveryMode) {
-        await this.poolRepo.upsert(
-          {
-            address: pool.address,
-            symbol: pool.symbol,
-            type: pool.poolType,
-            swapEnabled: pool.swapEnabled,
-            swapFee: pool.swapFee,
-            totalLiquidity: pool.totalLiquidity,
-            swapsCount: pool.swapsCount ?? "0",
-            name: pool.name,
-            isInRecoveryMode: recoveryMode,
-            poolType: pool.poolType,
-          } as Pool,
-          ["address"],
-        );
-        this.logger.log(`Saved pool ${pool.symbol}`);
-      }
-    }, undefined);
+    await Promise.all(
+      await poolCollection.map(async (pool) => {
+        this.logger.log(`Processing pool ${pool.address} ${pool.name}`);
+        let recoveryMode = pool.isInRecoveryMode ?? false;
+        if (recoveryMode === null) recoveryMode = false;
+        if (!recoveryMode) {
+          await this.poolRepo.upsert(
+            {
+              address: pool.address,
+              symbol: pool.symbol,
+              type: pool.poolType,
+              swapEnabled: pool.swapEnabled,
+              swapFee: pool.swapFee,
+              totalLiquidity: pool.totalLiquidity,
+              swapsCount: pool.swapsCount ?? "0",
+              name: pool.name,
+              isInRecoveryMode: recoveryMode,
+              poolType: pool.poolType,
+            } as Pool,
+            ["address"],
+          );
+          this.logger.log(`Saved pool ${pool.symbol}`);
+        }
+      }),
+    );
     await this.createPoolTokens(poolCollection);
   }
   async createPoolTokens(poolCollection: any[]) {
-    poolCollection.reduce(async (memo, pool) => {
+    await poolCollection.reduce(async (memo, pool) => {
       const p = await this.poolRepo.findOne({
         where: { address: pool.address },
       });
@@ -163,7 +164,7 @@ export class BalancerArbitrumGraphqlServiceService {
     const result = await this.client.query({ query });
     const uniques = uniqBy<any>(result.data.poolTokens, "address");
     this.logger.log(`Found ${uniques.length} unique tokens`);
-    uniques.reduce(async (memo, token) => {
+    await uniques.reduce(async (memo, token) => {
       await memo;
       const existing = await this.tokenRepo.exist({
         where: { address: token.address },

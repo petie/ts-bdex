@@ -5,9 +5,11 @@ import {
   Column,
   OneToOne,
   JoinColumn,
+  Unique,
 } from "typeorm";
 
 @Entity()
+@Unique(["tokenId"])
 export class TokenPrice {
   @PrimaryGeneratedColumn()
   id: number;

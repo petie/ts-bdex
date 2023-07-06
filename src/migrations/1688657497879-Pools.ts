@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class Pools1688653454542 implements MigrationInterface {
-    name = 'Pools1688653454542'
+export class Pools1688657497879 implements MigrationInterface {
+    name = 'Pools1688657497879'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`CREATE TABLE "token_price" ("id" SERIAL NOT NULL, "usdPrice" character varying NOT NULL, "timestamp" TIMESTAMP WITH TIME ZONE NOT NULL, "tokenId" character varying NOT NULL, "tokenAddress" character varying, CONSTRAINT "REL_e7894ff1e299807a540653696e" UNIQUE ("tokenAddress"), CONSTRAINT "PK_dcc681716689f0d6311c0498c61" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "token_price" ("id" SERIAL NOT NULL, "usdPrice" character varying NOT NULL, "timestamp" TIMESTAMP WITH TIME ZONE NOT NULL, "tokenId" character varying NOT NULL, "tokenAddress" character varying, CONSTRAINT "UQ_eb3d534a1115c1affe9a4b16e11" UNIQUE ("tokenId"), CONSTRAINT "REL_e7894ff1e299807a540653696e" UNIQUE ("tokenAddress"), CONSTRAINT "PK_dcc681716689f0d6311c0498c61" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "token" ("address" character varying NOT NULL, "symbol" character varying NOT NULL, "chainId" integer NOT NULL, "decimals" integer NOT NULL, "name" character varying NOT NULL, CONSTRAINT "PK_40a4dcc6b727285c6539aa1d1c1" PRIMARY KEY ("address"))`);
         await queryRunner.query(`CREATE TABLE "pool_token" ("id" SERIAL NOT NULL, "weight" integer, "balance" character varying NOT NULL, "tokenId" character varying NOT NULL, "poolId" character varying NOT NULL, "tokenAddress" character varying, "poolAddress" character varying, CONSTRAINT "UQ_f9c54f7cdd5a0fa4acc1a829d6e" UNIQUE ("poolId", "tokenId"), CONSTRAINT "PK_ba4b34630b3bb4c9676c9982687" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "pool" ("address" character varying NOT NULL, "swapFee" character varying NOT NULL, "swapEnabled" boolean NOT NULL, "poolType" character varying NOT NULL, "symbol" character varying NOT NULL, "type" character varying NOT NULL, "totalLiquidity" character varying NOT NULL, "name" character varying NOT NULL, "swapsCount" character varying NOT NULL, "isInRecoveryMode" boolean NOT NULL, CONSTRAINT "PK_0764827295d4ed49e259aa398fc" PRIMARY KEY ("address"))`);
