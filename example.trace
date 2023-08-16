@@ -1,0 +1,32 @@
+(kind = 0),
+  (swaps = [
+    {
+      poolId:
+        "0x93b48e950380adcf6d67c392f20d44fb88d258dc000200000000000000000465",
+      assetInIndex: "0",
+      assetOutIndex: "1",
+      amount: "2000000",
+      userData: "0x",
+    },
+    {
+      poolId:
+        "0x178e029173417b1f9c8bc16dcec6f697bc323746000200000000000000000158",
+      assetInIndex: "1",
+      assetOutIndex: "2",
+      amount: "0",
+      userData: "0x",
+    },
+  ]),
+  (assets = [
+    "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
+    "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8",
+    "0x5979d7b546e38e414f7e9822514be443a4800529",
+  ]),
+  (funds = {
+    sender: "0x4d34Ab6c60080a8145141a4BB43BF15de2A8FD0C",
+    fromInternalBalance: false,
+    recipient: "0x4d34Ab6c60080a8145141a4BB43BF15de2A8FD0C",
+    toInternalBalance: false,
+  }),
+  (limits = ["2000000", "0", "-928329353233830"]),
+  (deadline = 1688664832);

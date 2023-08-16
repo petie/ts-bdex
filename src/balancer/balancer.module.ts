@@ -9,6 +9,9 @@ import { Chain } from "./entities/chain.entity";
 import { PoolToken } from "./entities/pool-token.entity";
 import { TokenPrice } from "./entities/token-price.entity";
 import { Pool } from "./entities/pool.entity";
+import { BalancerWeb3Service } from "./balancer-web3/balancer-web3.service";
+import { PriceService } from "./price-service/price.service";
+import { PathFinderService } from './path-finder/path-finder.service';
 
 @Module({
   imports: [
@@ -19,6 +22,9 @@ import { Pool } from "./entities/pool.entity";
     GetTokensCommand,
     LogService,
     BalancerArbitrumGraphqlServiceService,
+    BalancerWeb3Service,
+    PriceService,
+    PathFinderService,
   ],
   // exports: [GetPoolsCommand],
 })
